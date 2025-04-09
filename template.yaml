@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Instagram Webhook Handler
+
+Parameters:
+  VerifyToken:
+    Type: String
+    Description: Token used to validate Instagram Webhook verification
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.11
+    MemorySize: 128
+
+Resources:
+  InstagramWebhook:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: InstagramWebhook
+      Handler: webhook.handler.lambda_handler
+      Environment:
+        Variables:
+          VERIFY_TOKEN: !Ref VerifyToken
+      Events:
+        InstagramWebhookAPI:
+          Type: Api
+          Properties:
+            Path: /webhook
+            Method: ANY
