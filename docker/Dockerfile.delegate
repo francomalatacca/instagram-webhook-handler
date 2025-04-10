@@ -1,0 +1,15 @@
+# Use slim Python base
+FROM python:3.11-slim
+
+# Install SAM CLI dependencies
+RUN apt-get update && apt-get install -y \
+    unzip curl git && \
+    pip install --upgrade pip && \
+    pip install aws-sam-cli && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Optional: add common dev tools
+RUN apt-get update && apt-get install -y build-essential make gcc
+
+# Set workdir
+WORKDIR /harness
