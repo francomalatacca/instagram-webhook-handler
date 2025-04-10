@@ -1,14 +1,21 @@
 FROM python:3.11-slim
 
-# Install required tools
-RUN apt-get update && apt-get install -y unzip curl git default-jre
+# Install Java, curl, unzip, etc.
+RUN apt-get update && apt-get install -y \
+    curl unzip git default-jre && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install pip and AWS SAM CLI
 RUN pip install --upgrade pip && pip install aws-sam-cli
 
-# Download and unpack Harness delegate
+# Set working dir for delegate install
 WORKDIR /opt/harness-delegate
+
+# Download and unpack the delegate
 RUN curl -L https://app.harness.io/public/shared/delegates/delegate.tar.gz | tar -xz
 
-# Entrypoint to start the delegate
+# Make sure start.sh is executable
+RUN chmod +x start.sh
+
+# Entrypoint for the delegate
 ENTRYPOINT ["./start.sh"]
