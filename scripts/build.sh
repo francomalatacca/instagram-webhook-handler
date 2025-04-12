@@ -1,12 +1,16 @@
 #!/bin/bash
 set -e
 
-# Fix for SAM runtime python3.11 validation
-echo "🔧 Checking for python3.11 compatibility..."
-if ! command -v python3.11 &> /dev/null; then
-  echo "⚙️ Adding python3.11 symlink to PATH..."
-  ln -s $(which python3) /usr/bin/python3.11 || true
-fi
+# Fix for SAM Python runtime validation
+echo "🔧 Checking for Python 3.11 compatibility..."
+PY_PATH=$(which python3 || true)
+
+for bin in /usr/bin/python /bin/python /usr/bin/python3 /bin/python3; do
+  if [ ! -f "$bin" ]; then
+    echo "⚙️ Linking $PY_PATH to $bin"
+    ln -s $PY_PATH $bin || true
+  fi
+done
 
 echo "🚀 Deploying the SAM stack..."
 sam deploy --guided
