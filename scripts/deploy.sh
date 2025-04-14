@@ -21,6 +21,10 @@ echo "🔨 Building SAM app..."
 sam build
 
 echo "🚀 Deploying SAM stack..."
+echo "🧾 Region: ${HARNESS_AWS_REGION}"
+echo "🔐 VerifyToken: ${HARNESS_VERIFY_TOKEN}"
+
+echo "🚀 Deploying SAM stack..."
 sam deploy \
   --stack-name instagram-webhook-stack \
   --capabilities CAPABILITY_IAM \
