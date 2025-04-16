@@ -52,7 +52,7 @@ echo "🚀 Deploying SAM stack..."
 sam deploy \
   --stack-name instagram-webhook-stack \
   --capabilities CAPABILITY_IAM \
-  --region "${AWS_DEFAULT_REGION}" \
-  --parameter-overrides VerifyToken="${HARNESS_VERIFY_TOKEN}" \
+  --region $AWS_DEFAULT_REGION \
+  --parameter-overrides VerifyToken=$HARNESS_VERIFY_TOKEN \
   --no-confirm-changeset \
   --no-fail-on-empty-changeset
